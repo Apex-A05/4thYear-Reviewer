@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSELEC3 Reviewer: Computational Science and Programming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1033;--bg2:#121a4d;--ink:#e8ecff;--mute:#9aa6d6;--line:rgba(160,175,255,.22);--glass:rgba(255,255,255,.06);--a:#5ce1e6;--b:#ff6b8b;--ok:#6ee7a8;--bad:#ff6b8b;--r:14px}
+[data-theme=light]{--bg:#eef2ff;--bg2:#dfe6ff;--ink:#141b4d;--mute:#4c5896;--line:rgba(20,27,77,.2);--glass:rgba(255,255,255,.7);--a:#0057ff;--b:#e0245e;--ok:#0a8f55;--bad:#d11a4f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 700px at 80% -10%,var(--bg2),var(--bg));background-attachment:fixed;color:var(--ink);font:17px/1.65 "Hanken Grotesk",system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:Unbounded,sans-serif;line-height:1.15;margin:0 0 .6em;font-weight:500}
+a{color:var(--a)}
+:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:1rem;padding:.7rem clamp(1rem,4vw,2.5rem);backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+.brand{font-family:Unbounded;font-weight:700;font-size:1rem;text-decoration:none;color:var(--ink);margin-right:auto}
+nav{display:flex;gap:.25rem}
+nav a{padding:.4rem .9rem;border-radius:99px;text-decoration:none;color:var(--mute)}
+nav a[aria-current=page]{background:var(--glass);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.pill{display:flex;align-items:center;gap:.5rem;padding:.35rem .8rem;border-radius:99px;border:1px solid var(--line);background:var(--glass);font:600 .9rem "JetBrains Mono",monospace;white-space:nowrap}
+.dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ok);animation:pulse 1.8s infinite}
+.dot.off{background:var(--mute);animation:none}
+@keyframes pulse{50%{box-shadow:0 0 0 6px transparent;opacity:.5}0%{box-shadow:0 0 0 0 var(--ok)}}
+.ic{border:1px solid var(--line);background:var(--glass);border-radius:50%;width:2.2rem;height:2.2rem}
+main{max-width:1100px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.view{display:none}.view.on{display:block}
+.hero{position:relative;min-height:78vh;display:flex;flex-direction:column;justify-content:center;max-width:46rem}
+#lz{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+.hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:700}
+.hero p{color:var(--mute);max-width:36rem}
+.btns{display:flex;gap:.8rem;flex-wrap:wrap;margin:1.4rem 0}
+.btn{padding:.75rem 1.4rem;border-radius:99px;border:1px solid var(--line);background:var(--glass);text-decoration:none;color:var(--ink);font-weight:700}
+.btn.p{background:var(--a);color:#06103a;border-color:transparent}
+.legend{font:.85rem "JetBrains Mono",monospace;color:var(--mute)}
+.legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.3rem}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:2.5rem;padding-top:2rem}
+aside{position:sticky;top:5rem;align-self:start;font-size:.95rem}
+aside a{display:block;padding:.3rem 0;color:var(--mute);text-decoration:none}
+aside a:hover{color:var(--ink)}
+.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:.5rem 0 1rem}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));width:0;transition:width .4s}
+.sec{padding:1.6rem 0;border-top:1px solid var(--line)}
+.sec h2{font-size:1.35rem}
+.sec h3{font-size:1rem;margin-top:1.3rem;color:var(--a)}
+.sec ul,.sec ol{padding-left:1.2rem}.sec li{margin:.3rem 0}
+.f{display:block;font:600 .95rem "JetBrains Mono",monospace;background:var(--glass);border:1px solid var(--line);border-left:3px solid var(--a);padding:.6rem .9rem;border-radius:8px;margin:.6rem 0;overflow-x:auto}
+code{font:.9em "JetBrains Mono",monospace;background:var(--glass);padding:.1em .35em;border-radius:5px}
+.done{margin-top:.8rem;padding:.4rem 1rem;border-radius:99px;border:1px solid var(--line);background:none}
+.done[aria-pressed=true]{background:var(--ok);color:#04210f;border-color:transparent}
+table{border-collapse:collapse;margin:.6rem 0}td,th{border:1px solid var(--line);padding:.35rem .8rem;text-align:left}
+.panel{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem);margin-top:2rem;backdrop-filter:blur(10px)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.4rem}
+.chips label{padding:.35rem .9rem;border:1px solid var(--line);border-radius:99px;cursor:pointer}
+.chips input{position:absolute;opacity:0}
+.chips label:has(input:checked){background:var(--a);color:#06103a;border-color:transparent}
+.chips label:has(input:focus-visible){outline:3px solid var(--a);outline-offset:3px}
+select{font:inherit;padding:.4rem .6rem;border-radius:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.q{font-size:1.25rem;font-weight:500;margin:1rem 0}
+.opt{display:block;width:100%;text-align:left;margin:.55rem 0;padding:.8rem 1rem;border-radius:12px;border:1px solid var(--line);background:var(--glass);transition:transform .15s,border-color .15s}
+.opt:hover:not(:disabled){border-color:var(--a);transform:translateX(4px)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 20%,transparent)}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 20%,transparent)}
+.opt:disabled{cursor:default}
+.exp{margin-top:1rem;padding:.8rem 1rem;border-left:3px solid var(--a);background:var(--glass);border-radius:8px}
+.meta{display:flex;justify-content:space-between;font:.9rem "JetBrains Mono",monospace;color:var(--mute)}
+.score{font:700 clamp(3rem,10vw,5.5rem) Unbounded;line-height:1}
+.row{display:grid;grid-template-columns:11rem 1fr 3.5rem;gap:.8rem;align-items:center;margin:.4rem 0;font-size:.95rem}
+.row .bar{margin:0}
+.miss{margin:.8rem 0;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
+@media(max-width:800px){.layout{grid-template-columns:1fr}aside{position:static}nav a{padding:.4rem .55rem}.brand{display:none}.row{grid-template-columns:7rem 1fr 3rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#/">CSELEC3 Reviewer</a>
+  <nav aria-label="Main">
+    <a href="#/reviewer" data-v="reviewer">Reviewer</a>
+    <a href="#/quiz" data-v="quiz">Quiz</a>
+    <a href="#/scores" data-v="scores">Scores</a>
+  </nav>
+  <div class="pill" title="Unique visitors, counted once per browser"><span class="dot off" id="dot"></span><span id="vc">...</span><span>visitors</span></div>
+  <button class="ic" id="theme" aria-label="Switch light or dark theme">◐</button>
+</header>
+<canvas id="lz" aria-hidden="true"></canvas>
+<main>
+<section class="view" id="v-home">
+  <div class="hero">
+    <h1>Computational Science and Programming, ready for exam day.</h1>
+    <p>Two simulated storms start almost in the same place. Watch them drift apart: that is sensitive dependence on initial conditions, one of the ideas you will review here.</p>
+    <div class="btns"><a class="btn p" href="#/reviewer">Start reviewing</a><a class="btn" href="#/quiz">Take the quiz</a></div>
+    <div class="legend"><i style="background:var(--a)"></i>Start x = 1.000 &nbsp; <i style="background:var(--b)"></i>Start x = 1.001</div>
+  </div>
+</section>
+<section class="view" id="v-reviewer"><div class="layout"><aside><strong>Your progress</strong><div class="bar"><i id="pg"></i></div><div id="toc"></div></aside><div id="secs"></div></div></section>
+<section class="view" id="v-quiz"><div class="panel" id="quiz"></div></section>
+<section class="view" id="v-scores"><div class="panel" id="scores"></div></section>
+</main>
+<script>
+/* ===== CONFIG: change NS to something unique to you before publishing ===== */
+const NS='cselec3-reviewer-site', KEY='visits';
+const $=s=>document.querySelector(s), ls={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+
+/* ---------- Live visitor counter (counted once per browser) ---------- */
+async function visitors(){
+  const first=!ls.get('seen',false), el=$('#vc');
+  const tries=[
+    async()=>(await (await fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}${first?'/up':''}`)).json()).count,
+    async()=>(await (await fetch(`https://abacus.jasoncameron.dev/${first?'hit':'get'}/${NS}/${KEY}`)).json()).value
+  ];
+  for(const t of tries){try{const n=await t();if(Number.isFinite(n)){el.textContent=n.toLocaleString();$('#dot').classList.remove('off');if(first)ls.set('seen',true);return}}catch{}}
+  el.textContent='offline';
+}
+visitors(); setInterval(async()=>{ // refresh the number while the page stays open
+  try{const n=(await (await fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}`)).json()).count;if(Number.isFinite(n))$('#vc').textContent=n.toLocaleString()}catch{}
+},60000);
+
+/* ---------- Theme ---------- */
+const root=document.documentElement; root.dataset.theme=ls.get('theme',matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+$('#theme').onclick=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';ls.set('theme',root.dataset.theme)};
+
+/* ---------- Lorenz hero: two trajectories, tiny difference ---------- */
+(function(){
+  const c=$('#lz'),x=c.getContext('2d');let W,H;
+  const size=()=>{W=c.width=innerWidth;H=c.height=innerHeight};size();addEventListener('resize',size);
+  const mk=(dx)=>({x:1+dx,y:1,z:1});const A=mk(0),B=mk(.001);
+  const step=p=>{const s=10,r=28,b=8/3,dt=.006,dx=s*(p.y-p.x),dy=p.x*(r-p.z)-p.y,dz=p.x*p.y-b*p.z;p.x+=dx*dt;p.y+=dy*dt;p.z+=dz*dt};
+  const pt=p=>[W*(.62+p.x*.017),H*(.92-p.z*.017)];
+  const col=()=>getComputedStyle(root);
+  function draw(n){const s=col();for(const[p,k]of[[A,'--a'],[B,'--b']]){x.strokeStyle=s.getPropertyValue(k);x.lineWidth=1.6;for(let i=0;i<n;i++){x.beginPath();x.moveTo(...pt(p));step(p);x.lineTo(...pt(p));x.stroke()}}}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){draw(5000);return}
+  (function loop(){const s=col();x.fillStyle=s.getPropertyValue('--bg').trim();x.globalAlpha=.05;x.fillRect(0,0,W,H);x.globalAlpha=1;draw(3);requestAnimationFrame(loop)})();
+})();
+
+/* ---------- Reviewer content ---------- */
+const SEC=[
+['Computational science and the three pillars',`<p>Computational science is an interdisciplinary field that combines mathematics, scientific principles, algorithms and computers to solve complex problems and study real-world systems.</p>
+<h3>Key characteristics</h3><ul><li><b>Mathematical modeling:</b> represents systems with equations</li><li><b>Computational methods:</b> algorithms and numerical techniques</li><li><b>Simulation:</b> computer-based experiments</li><li><b>Data analysis</b> and <b>visualization</b></li></ul>
+<p>Applications: weather and climate, epidemiology, engineering design, environmental monitoring, astronomy, molecular research, traffic simulation.</p>
+<h3>Three pillars of science</h3><ul><li><b>Theoretical:</b> equations, laws, logical derivation</li><li><b>Experimental:</b> observation, controlled experiments, measurement</li><li><b>Computational:</b> models, algorithms, simulation of cases too complex, costly, dangerous or slow to test directly</li></ul>`],
+['Computational solution pipeline',`<ol><li><b>Problem definition:</b> objectives, assumptions, constraints, inputs, outputs</li><li><b>Mathematical modeling:</b> turn the problem into equations</li><li><b>Algorithm design:</b> ordered steps to solve the math</li><li><b>Implementation:</b> write the code</li><li><b>Execution and simulation:</b> run it</li><li><b>Verification</b></li><li><b>Validation</b></li><li><b>Analysis and interpretation</b></li><li><b>Communication:</b> findings, methods, limitations</li></ol>
+<h3>Verification vs. validation</h3><ul><li><b>Verification:</b> are we solving the problem <i>correctly</i>? Checks code, algorithm and calculations.</li><li><b>Validation:</b> are we solving the <i>right</i> problem? Checks that the model matches the real system.</li></ul>
+<h3>Related fields</h3><ul><li><b>Computational science:</b> models and simulates scientific systems</li><li><b>Data science:</b> statistics, programming and machine learning to find insight in data</li><li><b>Information technology:</b> implementing, managing, maintaining and securing systems and networks</li></ul>`],
+['Computational thinking',`<p>A systematic way to formulate problems so humans or computers can solve them.</p><ul><li><b>Decomposition:</b> break a big problem into smaller subproblems</li><li><b>Pattern recognition:</b> find similarities, trends and repeated behavior</li><li><b>Abstraction:</b> keep what matters, ignore unnecessary detail</li><li><b>Algorithm design:</b> a finite, ordered, clear, correct and efficient list of steps</li></ul>
+<p>Computational thinking organizes the problem; programming implements the solution.</p>`],
+['Mathematical models and simulation',`<h3>Parts of a model</h3><ul><li><b>Variables:</b> change during the run</li><li><b>Parameters:</b> set before the run (rates, coefficients)</li><li><b>Constants:</b> fixed values</li><li><b>Assumptions:</b> simplifications</li><li><b>Constraints:</b> conditions the model must satisfy</li><li><b>Initial conditions:</b> starting state</li></ul>
+<p>A parameter in one model may be a variable in another. Keep units consistent: m, km, s, h, kg, °C, K, m/s.</p>
+<h3>Types of simulation</h3><ul><li><b>Deterministic:</b> same inputs, same results</li><li><b>Stochastic:</b> randomness, results vary between runs</li><li><b>Continuous:</b> state changes continuously</li><li><b>Discrete-event:</b> state changes at distinct events</li></ul>
+<p><b>Limits:</b> only as good as the model and input data; needs resources; cannot capture all of reality; results must be validated.</p>
+<h3>Numerical methods</h3><p>Approximate solutions when exact ones are hard: numerical integration, root-finding, differential equation solvers, matrix methods, randomized methods. Choice depends on accuracy, cost, data and stability.</p>`],
+['Computational biology and the SIR model',`<p>Computational biology analyzes genetic data, predicts protein structure, models molecules and diseases, population dynamics and drug discovery.</p>
+<h3>SIR compartments</h3><ul><li><b>S</b> susceptible, <b>I</b> infectious, <b>R</b> recovered (immune in the basic model)</li></ul>
+<code class="f">dS/dt = −β·S·I / N<br>dI/dt = β·S·I / N − γ·I<br>dR/dt = γ·I</code>
+<p>N = total population, β = transmission rate, γ = recovery rate, t = time.</p>
+<h3>Basic reproduction number</h3><code class="f">R₀ = β / γ</code><ul><li>R₀ &gt; 1: outbreak can grow</li><li>R₀ &lt; 1: outbreak declines</li><li>R₀ = 1: roughly stable at first</li></ul><p>R₀ is the average number of secondary infections from one infectious person in a fully susceptible population.</p>`],
+['Monte Carlo methods',`<p>Use random sampling to estimate results or explore uncertain systems. Helpful when there are many outcomes, no easy analytical solution, uncertainty to model, or probabilities and expected values to estimate.</p>
+<ol><li>Define the problem and model</li><li>Specify probability distributions</li><li>Generate random samples</li><li>Compute for each sample</li><li>Aggregate results</li><li>Analyze estimates and uncertainty</li></ol>
+<p>Uses: risk assessment, financial modeling, engineering reliability, statistical estimation, physical and biological simulation. More samples stabilize estimates but do not fix a wrong model or biased sampling.</p>`],
+['Chaos theory and the Lorenz system',`<p>Chaotic systems follow deterministic rules yet behave in complex, hard-to-predict ways. The key idea is <b>sensitive dependence on initial conditions</b>: tiny differences at the start grow into very different outcomes.</p>
+<p>The Lorenz system came from the study of atmospheric convection. Chaos does not mean no rules; it means long-term prediction is practically limited.</p>`],
+['Vectors',`<p>A vector is an ordered list of numbers (position, direction, velocity, multidimensional data).</p>
+<ul><li><b>Addition:</b> same dimension, add matching components</li><li><b>Scalar multiplication:</b> multiply every component</li></ul>
+<code class="f">a·b = a₁b₁ + a₂b₂ + … + aₙbₙ   (a scalar)<br>‖v‖ = √(v₁² + v₂² + … + vₙ²)<br>a·b = ‖a‖‖b‖cos θ</code>
+<p>If a·b = 0 and both are nonzero, the vectors are perpendicular.</p>`],
+['Matrices',`<p>A rectangular grid of numbers with <b>m × n</b> dimensions (m rows, n columns).</p>
+<ul><li><b>Addition:</b> only for equal dimensions</li><li><b>Transpose:</b> swap rows and columns; m × n becomes n × m</li><li><b>Multiplication:</b> A (m × n) times B (n × p) gives AB (m × p); columns of A must equal rows of B. Each entry is a row times a column, summed.</li><li><b>Identity:</b> 1s on the diagonal, 0s elsewhere; AI = IA = A</li></ul>
+<h3>Properties</h3><ul><li>Addition is commutative</li><li>Multiplication is <b>not</b> generally commutative</li><li>Multiplication is associative and distributes over addition</li></ul>`],
+['Systems of linear equations',`<p>A linear equation has variables of degree one that are not multiplied together.</p>
+<ul><li><b>Substitution:</b> isolate a variable and plug it into another equation</li><li><b>Elimination:</b> add or subtract equations to cancel variables</li><li><b>Gaussian elimination:</b> use row operations to reach row-echelon form, then back-substitute</li></ul>
+<p>Row operations: swap two rows; multiply a row by a nonzero constant; add a multiple of one row to another.</p>
+<code class="f">AX = B   (A coefficients, X unknowns, B constants)</code>
+<p>Outcomes: one unique solution, infinitely many solutions (dependent), or no solution (inconsistent).</p>`],
+['Python fundamentals',`<ul><li><code>#</code> starts a comment; <code>print()</code> shows output</li><li>Types: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, <code>list</code> (ordered, mutable), <code>tuple</code> (ordered, immutable), <code>dict</code> (key-value), <code>set</code> (unique)</li><li><code>=</code> assigns, <code>==</code> compares. Constants are uppercase by convention.</li><li>Names: letters, digits, underscores; no leading digit, no spaces, case-sensitive, no reserved keywords</li></ul>
+<h3>Lists</h3><p>Square brackets, ordered, mutable, allow duplicates and mixed types. Indexing starts at 0.</p>
+<h3>Operators</h3><table><tr><th>Arithmetic</th><td><code>+ - * / // % **</code> (floor division, remainder, power)</td></tr><tr><th>Comparison</th><td><code>== != &gt; &lt; &gt;= &lt;=</code> give True or False</td></tr><tr><th>Logical</th><td><code>and or not</code></td></tr></table>
+<h3>Conditionals</h3><code class="f">if score &gt;= 75:<br>&nbsp;&nbsp;print("pass")<br>elif score &gt;= 60:<br>&nbsp;&nbsp;print("near")<br>else:<br>&nbsp;&nbsp;print("retake")</code><p>Indentation defines code blocks.</p>`]
+];
+const done=new Set(ls.get('done',[]));
+function renderRev(){
+  $('#toc').innerHTML=SEC.map((s,i)=>`<a href="#s${i}">${s[0]}</a>`).join('');
+  $('#secs').innerHTML=SEC.map((s,i)=>`<article class="sec" id="s${i}"><h2>${s[0]}</h2>${s[1]}<button class="done" data-i="${i}" aria-pressed="${done.has(i)}">${done.has(i)?'Reviewed':'Mark as reviewed'}</button></article>`).join('');
+  $('#secs').onclick=e=>{const b=e.target.closest('.done');if(!b)return;const i=+b.dataset.i;done.has(i)?done.delete(i):done.add(i);ls.set('done',[...done]);renderRev();prog()};
+  prog();
+}
+const prog=()=>$('#pg').style.width=(done.size/SEC.length*100)+'%';
+
+/* ---------- Quiz: [topic, question, correct, wrong x3, explanation] ---------- */
+const TOP=['Fundamentals','Computational thinking','Modeling and simulation','Applications','Vectors and matrices','Linear systems','Python'];
+const Q=[
+[0,'Which best describes computational science?','An interdisciplinary field using math, science, algorithms and computers to study complex systems','The management and security of networks','Statistics applied only to large datasets','Writing programs in any language','It combines mathematics, scientific principles, algorithms and computing.'],
+[0,'What are the three pillars of science?','Theory, experimentation, computation','Theory, data, networking','Observation, programming, statistics','Modeling, security, storage','Theory explains, experiments give evidence, computation explores complex models.'],
+[0,'Which stage of the computational pipeline comes first?','Problem definition','Implementation','Validation','Algorithm design','You must define objectives, assumptions, constraints, inputs and outputs first.'],
+[0,'Verification asks which question?','Are we solving the problem correctly?','Are we solving the right problem?','Is the data large enough?','Is the hardware fast enough?','Verification checks that code and algorithms are implemented correctly.'],
+[0,'A program matches its algorithm perfectly, but the model ignores a key real-world factor. Which check fails?','Validation','Verification','Implementation','Communication','Validation checks whether the model represents the real system.'],
+[0,'Which field focuses on implementing, managing and securing computing systems and networks?','Information technology','Data science','Computational science','Theoretical science','That is the main focus of information technology.'],
+[1,'Breaking a large problem into smaller subproblems is called:','Decomposition','Abstraction','Pattern recognition','Validation','Decomposition reduces complexity and supports modular work.'],
+[1,'A subway map shows only stations and lines, not real street layouts. This is:','Abstraction','Decomposition','Simulation','Verification','Abstraction keeps essential information and ignores unnecessary detail.'],
+[1,'Noticing that several tasks share the same structure so you can reuse a solution is:','Pattern recognition','Decomposition','Implementation','Validation','Pattern recognition finds repeated structures and reduces repeated work.'],
+[1,'Which is NOT a property of a good algorithm?','It may run forever without stopping','Clear and unambiguous','Correct','Finite','A good algorithm must be finite.'],
+[1,'How do computational thinking and programming relate?','Thinking organizes the problem; programming implements the solution','They are the same thing','Programming must come before understanding the problem','Thinking only applies to computers','Computational thinking is the process; programming is the implementation.'],
+[2,'Values specified before a simulation that define a model, such as a rate, are:','Parameters','Initial conditions','Assumptions','Outputs','Parameters define or influence the model and are set beforehand.'],
+[2,'Starting values that define the state of a system at the beginning of a simulation are:','Initial conditions','Constraints','Parameters','Constants','Initial conditions describe the system at time zero.'],
+[2,'Which simulation gives the same results for the same inputs and initial conditions?','Deterministic','Stochastic','Random','Discrete-event','Deterministic simulations have no randomness.'],
+[2,'A simulation that includes randomness and may differ between runs is:','Stochastic','Deterministic','Constant','Verified','Stochastic simulations incorporate randomness.'],
+[2,'Why do units matter in modeling?','They keep calculations dimensionally consistent and prevent errors','They make code run faster','They replace parameters','They are optional labels','Dimensional consistency prevents errors, like adding meters to seconds.'],
+[2,'Numerical methods are most useful when:','Exact analytical solutions are hard or impossible to find','The answer is already known','No computer is available','The data has no units','They approximate solutions when exact ones are difficult.'],
+[3,'In the basic SIR model, what does R stand for?','Recovered','Reproduced','Random','Rate','Recovered individuals are assumed immune in the basic model.'],
+[3,'In the basic SIR model, R₀ equals:','β / γ','γ / β','β × γ','β + γ','R₀ is the transmission rate divided by the recovery rate.'],
+[3,'If β = 0.6 and γ = 0.2, what happens?','R₀ = 3, so an outbreak can grow','R₀ = 0.33, so it declines','R₀ = 1, so it is stable','R₀ = 0.8, so it declines','0.6 / 0.2 = 3, which is greater than 1.'],
+[3,'If β = 0.1 and γ = 0.4, the outbreak generally:','Declines, since R₀ = 0.25','Grows, since R₀ = 4','Stays stable','Cannot be modeled','0.1 / 0.4 = 0.25, which is less than 1.'],
+[3,'In SIR, γ represents the:','Recovery rate','Transmission rate','Total population','Time step','γ controls movement from infectious to recovered.'],
+[3,'dR/dt = γI says the recovered population grows:','In proportion to the number of infectious individuals','In proportion to the susceptible population','At a constant rate','Only when R₀ < 1','New recoveries come from the infectious compartment.'],
+[3,'Monte Carlo methods rely on:','Random sampling','Gaussian elimination','Matrix transposition','Exact derivations only','They use random samples to estimate results.'],
+[3,'Increasing Monte Carlo samples usually:','Stabilizes the estimate but cannot fix a wrong model or biased sampling','Guarantees a perfect answer','Removes all uncertainty','Makes the model valid','More samples help stability, not model correctness.'],
+[3,'Sensitive dependence on initial conditions is a key idea of:','Chaos theory','Verification','Gaussian elimination','Data science','Small starting differences can grow into large differences.'],
+[3,'The Lorenz system was originally developed to study:','Atmospheric convection','Protein folding','Network security','Matrix algebra','It is a model from the study of atmospheric convection.'],
+[4,'The dot product of two vectors is:','A scalar','A vector','A matrix','A unit','You multiply matching components and add: the result is one number.'],
+[4,'What is [1, 2, 3] · [4, 5, 6]?','32','15','21','27','4 + 10 + 18 = 32.'],
+[4,'What is the Euclidean norm of [3, 4]?','5','7','12','25','√(9 + 16) = 5.'],
+[4,'Two nonzero vectors have a dot product of 0. They are:','Perpendicular','Parallel','Equal','Identical in length','a·b = ‖a‖‖b‖cos θ, and cos 90° = 0.'],
+[4,'A matrix with 3 rows and 2 columns has dimensions:','3 × 2','2 × 3','3 × 3','6 × 1','Dimensions are rows × columns.'],
+[4,'A is 2 × 3 and B is 3 × 4. What is the size of AB?','2 × 4','3 × 3','2 × 3','Undefined','Inner dimensions match (3), so the result is 2 × 4.'],
+[4,'Which statement about matrix multiplication is true?','It is generally not commutative','It is always commutative','It works for any two matrices','It requires equal dimensions','AB and BA usually differ, and compatibility is required.'],
+[5,'In AX = B, what is X?','The vector of unknown variables','The coefficient matrix','The vector of constants','The identity matrix','A holds coefficients, X the unknowns, B the constants.'],
+[5,'Solve: x + y = 5 and x − y = 1. What is (x, y)?','(3, 2)','(2, 3)','(4, 1)','(5, 0)','Adding gives 2x = 6, so x = 3 and y = 2.'],
+[5,'Which is a valid elementary row operation?','Adding a multiple of one row to another','Multiplying a row by zero','Squaring every entry','Deleting a column','The allowed operations are swap, nonzero scaling, and row addition.'],
+[5,'A system with inconsistent equations has:','No solution','One unique solution','Infinitely many solutions','Two solutions','Inconsistent equations have no common solution.'],
+[6,'What does nums = [10, 20, 30]; print(nums[1]) display?','20','10','30','[20]','Indexing starts at 0, so index 1 is the second item.'],
+[6,'What is 7 // 2 in Python?','3','3.5','4','1','// is floor division.'],
+[6,'What is 10 % 3 in Python?','1','3','0','3.33','% gives the remainder.'],
+[6,'Which is a valid Python variable name?','my_var2','2nd_value','my var','class','Names cannot start with a digit, contain spaces, or be keywords.'],
+[6,'Which data type is ordered and immutable?','tuple','list','set','dict','Tuples cannot be changed after creation.'],
+[6,'What does x = 15 print? if x < 10: print("low") elif x < 20: print("mid") else: print("high")','mid','low','high','Nothing','15 fails the first test but passes x < 20.'],
+[6,'What is the difference between = and ==?','= assigns a value; == compares values','= compares; == assigns','They are identical','== declares constants','Assignment and equality are different operators.'],
+[6,'Which symbol starts a single-line comment?','#','//','--','/*','Python uses the hash symbol.']
+];
+
+let st=null;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function setup(){
+  st=null;
+  $('#quiz').innerHTML=`<h2>Review quiz</h2><p>${Q.length} questions across ${TOP.length} topics. Pick topics and length, then start.</p>
+  <fieldset style="border:0;padding:0"><legend>Topics</legend><div class="chips">${TOP.map((t,i)=>`<label><input type="checkbox" value="${i}" checked>${t}</label>`).join('')}</div></fieldset>
+  <label>Questions: <select id="n"><option>10</option><option>20</option><option value="40" selected>All (up to 40)</option></select></label>
+  <div class="btns"><button class="btn p" id="go">Start quiz</button></div>`;
+  $('#go').onclick=()=>{const ts=[...document.querySelectorAll('.chips input:checked')].map(i=>+i.value);if(!ts.length){alert('Select at least one topic.');return}
+    st={qs:shuffle(Q.filter(q=>ts.includes(q[0]))).slice(0,+$('#n').value),i:0,s:0,miss:[],by:{}};ask()};
+}
+function ask(){
+  const q=st.qs[st.i],opts=shuffle([q[2],q[3],q[4],q[5]]);
+  $('#quiz').innerHTML=`<div class="meta"><span>Question ${st.i+1} of ${st.qs.length}</span><span>${TOP[q[0]]}</span><span>Score ${st.s}</span></div>
+  <div class="bar"><i style="width:${st.i/st.qs.length*100}%"></i></div><p class="q">${q[1]}</p>
+  <div id="o">${opts.map(o=>`<button class="opt">${o}</button>`).join('')}</div><div id="fb" aria-live="polite"></div>`;
+  $('#quiz .bar>i').style.width=st.i/st.qs.length*100+'%';
+  $('#o').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;const ok=b.textContent===q[2];
+    document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===q[2])x.classList.add('right')});
+    if(!ok)b.classList.add('wrong');
+    const t=st.by[q[0]]||(st.by[q[0]]=[0,0]);t[1]++;if(ok){st.s++;t[0]++}else st.miss.push(q);
+    $('#fb').innerHTML=`<div class="exp"><b>${ok?'Correct.':'Not quite. Answer: '+q[2]}</b><br>${q[6]}</div><div class="btns"><button class="btn p" id="nx">${st.i+1<st.qs.length?'Next question':'See results'}</button></div>`;
+    $('#nx').focus();$('#nx').onclick=()=>{st.i++;st.i<st.qs.length?ask():finish()}};
+}
+function finish(){
+  const n=st.qs.length,pct=Math.round(st.s/n*100),h=ls.get('hist',[]);
+  h.unshift({d:new Date().toISOString(),s:st.s,n,by:st.by});ls.set('hist',h.slice(0,50));
+  const msg=pct>=90?'Outstanding. You are exam ready.':pct>=75?'Solid. Review the missed items below.':pct>=50?'Getting there. Revisit the weak topics.':'Keep going. Reread the reviewer, then retry.';
+  $('#quiz').innerHTML=`<h2>Results</h2><div class="score">${st.s}/${n}</div><p>${pct}%. ${msg}</p>
+  ${Object.entries(st.by).map(([k,v])=>bar(TOP[k],v[0],v[1])).join('')}
+  <h3>Missed questions</h3>${st.miss.length?st.miss.map(q=>`<div class="miss"><b>${q[1]}</b><br>Answer: ${q[2]}<br><small>${q[6]}</small></div>`).join(''):'<p>None. Perfect run.</p>'}
+  <div class="btns"><button class="btn p" id="rt">Take another quiz</button><a class="btn" href="#/scores">View scores</a></div>`;
+  $('#rt').onclick=setup;
+}
+const bar=(l,c,n)=>`<div class="row"><span>${l}</span><div class="bar"><i style="width:${n?c/n*100:0}%"></i></div><span>${c}/${n}</span></div>`;
+
+/* ---------- Scores ---------- */
+function renderScores(){
+  const h=ls.get('hist',[]);
+  if(!h.length){$('#scores').innerHTML='<h2>Scores</h2><p>No attempts yet. Finish a quiz and your results appear here.</p><a class="btn p" href="#/quiz">Take the quiz</a>';return}
+  const best=Math.max(...h.map(x=>Math.round(x.s/x.n*100))),avg=Math.round(h.reduce((a,x)=>a+x.s/x.n*100,0)/h.length),agg={};
+  h.forEach(x=>Object.entries(x.by).forEach(([k,v])=>{const a=agg[k]||(agg[k]=[0,0]);a[0]+=v[0];a[1]+=v[1]}));
+  $('#scores').innerHTML=`<h2>Your scores</h2><p>Best <b>${best}%</b>. Average <b>${avg}%</b> over ${h.length} attempt${h.length>1?'s':''}.</p>
+  <h3>Mastery by topic</h3>${TOP.map((t,i)=>agg[i]?bar(t,agg[i][0],agg[i][1]):'').join('')}
+  <h3>Recent attempts</h3><table>${h.slice(0,10).map(x=>`<tr><td>${new Date(x.d).toLocaleString()}</td><td>${x.s}/${x.n}</td><td>${Math.round(x.s/x.n*100)}%</td></tr>`).join('')}</table>
+  <div class="btns"><a class="btn p" href="#/quiz">Take the quiz</a><button class="btn" id="clr">Clear scores</button></div>`;
+  $('#clr').onclick=()=>{if(confirm('Clear all saved scores on this device?')){ls.set('hist',[]);renderScores()}};
+}
+
+/* ---------- Router ---------- */
+function route(){
+  const v=(location.hash.match(/^#\/(\w+)/)||[])[1]||'home';
+  if(/^#s\d/.test(location.hash))return;
+  document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  document.querySelectorAll('nav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.v===v)||a.removeAttribute('aria-current'));
+  document.querySelectorAll('nav a').forEach(a=>{if(a.dataset.v===v)a.setAttribute('aria-current','page')});
+  if(v==='scores')renderScores();if(v==='quiz'&&!st)setup();scrollTo(0,0);
+}
+renderRev();addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
