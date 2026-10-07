@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compiler Design Reviewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#13151f;--bg2:#1b1e2e;--panel:#1d2030;--ink:#e6e9f5;--mute:#8f97b8;--line:#33385a;--kw:#b69cff;--id:#6ad7ff;--num:#ffc46b;--op:#ff8aa1;--ok:#6ee7a8;--bad:#ff8aa1;--r:12px}
+[data-theme=light]{--bg:#f3f4fb;--bg2:#e6e8f6;--panel:#fff;--ink:#181b33;--mute:#555c85;--line:#c9cde6;--kw:#6a3fd6;--id:#0369a1;--num:#a85d00;--op:#c42659;--ok:#0a7f4d;--bad:#c42659}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Chakra Petch",sans-serif;line-height:1.15;margin:0 0 .6em}
+a{color:var(--id)}
+:focus-visible{outline:3px solid var(--id);outline-offset:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:1rem;padding:.7rem clamp(1rem,4vw,2.5rem);background:var(--bg2);border-bottom:1px solid var(--line)}
+.brand{font:700 1.05rem "Chakra Petch";text-decoration:none;color:var(--ink);margin-right:auto}
+nav{display:flex;gap:.25rem}
+nav a{padding:.4rem .9rem;border-radius:8px;text-decoration:none;color:var(--mute)}
+nav a[aria-current=page]{background:var(--panel);color:var(--ink);box-shadow:inset 0 -2px 0 var(--kw)}
+.pill{display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border-radius:8px;border:1px solid var(--line);background:var(--panel);font:600 .9rem "IBM Plex Mono",monospace;white-space:nowrap}
+.dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ok)}.dot.off{background:var(--mute)}
+.ic{border:1px solid var(--line);background:var(--panel);border-radius:8px;width:2.2rem;height:2.2rem}
+main{max-width:1100px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.view{display:none}.view.on{display:block}
+.hero{padding:4rem 0 2rem;max-width:52rem}
+.hero h1{font-size:clamp(2rem,5.5vw,3.4rem);font-weight:700}
+.hero p{color:var(--mute);max-width:38rem}
+.src{font:1.1rem "IBM Plex Mono",monospace;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;margin:1.6rem 0 .8rem;overflow-x:auto}
+.tk{display:flex;flex-wrap:wrap;gap:.5rem;font:.9rem "IBM Plex Mono",monospace}
+.tk span{padding:.25rem .6rem;border-radius:6px;border:1px solid currentColor}
+.k{color:var(--kw)}.i{color:var(--id)}.n{color:var(--num)}.o{color:var(--op)}
+.pipe{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.6rem 0;font:600 .9rem "Chakra Petch"}
+.pipe span{padding:.35rem .8rem;border-radius:8px;background:var(--panel);border:1px solid var(--line)}
+.pipe span+span::before{content:"› ";color:var(--mute)}
+.btns{display:flex;gap:.8rem;flex-wrap:wrap;margin:1.4rem 0}
+.btn{padding:.7rem 1.3rem;border-radius:8px;border:1px solid var(--line);background:var(--panel);text-decoration:none;color:var(--ink);font-weight:600}
+.btn.p{background:var(--kw);color:#150d33;border-color:transparent}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:2.5rem;padding-top:2rem}
+aside{position:sticky;top:5rem;align-self:start;font-size:.95rem}
+aside a{display:block;padding:.3rem 0;color:var(--mute);text-decoration:none}
+aside a:hover{color:var(--ink)}
+.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:.5rem 0 1rem}
+.bar>i{display:block;height:100%;background:var(--kw);width:0}
+.sec{padding:1.6rem 0;border-top:1px solid var(--line)}
+.sec h2{font-size:1.4rem}
+.sec h3{font-size:1.02rem;margin-top:1.3rem;color:var(--kw)}
+.sec ul,.sec ol{padding-left:1.2rem}.sec li{margin:.3rem 0}
+.f{display:block;font:.92rem/1.6 "IBM Plex Mono",monospace;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--kw);padding:.6rem .9rem;border-radius:8px;margin:.6rem 0;overflow-x:auto;white-space:pre}
+code{font:.9em "IBM Plex Mono",monospace;background:var(--panel);padding:.1em .35em;border-radius:5px}
+.done{margin-top:.8rem;padding:.4rem 1rem;border-radius:8px;border:1px solid var(--line);background:none}
+.done[aria-pressed=true]{background:var(--ok);color:#04210f;border-color:transparent}
+.tw{overflow-x:auto}table{border-collapse:collapse;margin:.6rem 0}td,th{border:1px solid var(--line);padding:.35rem .8rem;text-align:left}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem);margin-top:2rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.4rem}
+.chips label{padding:.35rem .9rem;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.chips input{position:absolute;opacity:0}
+.chips label:has(input:checked){background:var(--kw);color:#150d33;border-color:transparent}
+.chips label:has(input:focus-visible){outline:3px solid var(--id);outline-offset:3px}
+select{font:inherit;padding:.4rem .6rem;border-radius:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.q{font-size:1.2rem;font-weight:500;margin:1rem 0}
+.opt{display:block;width:100%;text-align:left;margin:.55rem 0;padding:.75rem 1rem;border-radius:10px;border:1px solid var(--line);background:var(--bg2)}
+.opt:hover:not(:disabled){border-color:var(--kw)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent)}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,transparent)}
+.opt:disabled{cursor:default}
+.exp{margin-top:1rem;padding:.8rem 1rem;border-left:3px solid var(--kw);background:var(--bg2);border-radius:8px}
+.meta{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font:.88rem "IBM Plex Mono",monospace;color:var(--mute)}
+.score{font:700 clamp(3rem,10vw,5.5rem) "Chakra Petch";line-height:1}
+.row{display:grid;grid-template-columns:11rem 1fr 3.5rem;gap:.8rem;align-items:center;margin:.4rem 0;font-size:.95rem}
+.row .bar{margin:0}
+.miss{margin:.8rem 0;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
+@media(max-width:800px){.layout{grid-template-columns:1fr}aside{position:static}nav a{padding:.4rem .55rem}.brand{display:none}.row{grid-template-columns:7rem 1fr 3rem}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#/">Compiler Design Reviewer</a>
+  <nav aria-label="Main">
+    <a href="#/reviewer" data-v="reviewer">Reviewer</a>
+    <a href="#/quiz" data-v="quiz">Quiz</a>
+    <a href="#/scores" data-v="scores">Scores</a>
+  </nav>
+  <div class="pill" title="Unique visitors, counted once per browser"><span class="dot off" id="dot"></span><span id="vc">...</span><span>visitors</span></div>
+  <button class="ic" id="theme" aria-label="Switch light or dark theme">◐</button>
+</header>
+<main>
+<section class="view" id="v-home">
+  <div class="hero">
+    <h1>From source text to machine code, one phase at a time.</h1>
+    <p>Review the compiler pipeline, lexical analysis, intermediate code, optimization and code generation, then test yourself with a scored quiz.</p>
+    <div class="src" aria-label="Example source line">int count = 42;</div>
+    <div class="tk" aria-label="Tokens produced by the lexer"><span class="k">INT_KEYWORD</span><span class="i">IDENTIFIER(count)</span><span class="o">EQUALS</span><span class="n">NUMBER(42)</span><span class="o">SEMICOLON</span></div>
+    <div class="pipe" aria-label="Compilation pipeline"><span>Lexical</span><span>Syntax</span><span>Semantic</span><span>Intermediate code</span><span>Optimization</span><span>Code generation</span></div>
+    <div class="btns"><a class="btn p" href="#/reviewer">Start reviewing</a><a class="btn" href="#/quiz">Take the quiz</a></div>
+  </div>
+</section>
+<section class="view" id="v-reviewer"><div class="layout"><aside><strong>Your progress</strong><div class="bar"><i id="pg"></i></div><div id="toc"></div></aside><div id="secs"></div></div></section>
+<section class="view" id="v-quiz"><div class="panel" id="quiz"></div></section>
+<section class="view" id="v-scores"><div class="panel" id="scores"></div></section>
+</main>
+<script>
+/* ===== CONFIG: change NS to something unique to you before publishing ===== */
+const NS='compiler-design-reviewer-site', KEY='visits', P='cd-';
+const $=s=>document.querySelector(s), ls={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(P+k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(P+k,JSON.stringify(v))}catch{}}};
+
+/* ---------- Visitor counter (counted once per browser) ---------- */
+async function visitors(){
+  const first=!ls.get('seen',false), el=$('#vc');
+  const tries=[
+    async()=>(await (await fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}${first?'/up':''}`)).json()).count,
+    async()=>(await (await fetch(`https://abacus.jasoncameron.dev/${first?'hit':'get'}/${NS}/${KEY}`)).json()).value
+  ];
+  for(const t of tries){try{const n=await t();if(Number.isFinite(n)){el.textContent=n.toLocaleString();$('#dot').classList.remove('off');if(first)ls.set('seen',true);return}}catch{}}
+  el.textContent='offline';
+}
+visitors();
+setInterval(async()=>{try{const n=(await (await fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}`)).json()).count;if(Number.isFinite(n))$('#vc').textContent=n.toLocaleString()}catch{}},60000);
+
+/* ---------- Theme ---------- */
+const root=document.documentElement; root.dataset.theme=ls.get('theme',matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+$('#theme').onclick=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';ls.set('theme',root.dataset.theme)};
+
+/* ---------- Reviewer content ---------- */
+const SEC=[
+['What a compiler does',`<p>A <b>compiler</b> translates high-level source code (C++, Java, Python) into machine code or an intermediate representation. It bridges human-readable code and machine-executable instructions.</p>
+<ul><li><b>Compiler:</b> complete translation before execution</li><li><b>Interpreter:</b> executes line by line at runtime; faster edit-test-debug, slower execution</li></ul>
+<p>Benefits of compiling: early error detection, whole-program optimization, more reliable programs.</p>
+<h3>Execution models</h3><ul><li><b>AOT:</b> translates everything before running; best for memory-limited embedded systems</li><li><b>JIT:</b> compiles to native code at runtime; startup overhead, but profile-guided optimization helps long-running programs</li><li><b>Hybrid:</b> source to bytecode to VM (interpret and/or JIT), like Java</li></ul>
+<h3>Real compilers</h3><ul><li><b>GCC:</b> open source; C, C++ and more</li><li><b>Clang/LLVM:</b> modern infrastructure, clear error messages</li><li><b>javac:</b> Java to JVM bytecode</li></ul>`],
+['Pipeline, front end and back end',`<code class="f">Source → Lexical → Syntax → Semantic → Intermediate code → Optimization → Code generation → Executable</code>
+<ul><li><b>Front end</b> (language-dependent): lexical, syntax and semantic analysis, error reporting, builds the AST or IR</li><li><b>Middle end</b> (target-independent): optimizes the IR, such as dead code elimination</li><li><b>Back end</b> (machine-dependent): instruction selection, register allocation, scheduling, machine code</li></ul>
+<h3>The M × N problem</h3><p>Without an IR, M languages and N machines need M × N compilers. With an IR you need M front ends plus N back ends. Example: 5 languages and 4 architectures give 20 compilers, but only 5 + 4 = 9 components.</p>`],
+['Lexical analysis',`<p>The <b>lexer / scanner / tokenizer</b> reads characters and groups them into tokens. It strips whitespace and comments and feeds the symbol table.</p>
+<ul><li><b>Lexeme:</b> the matched text (<code>count</code>, <code>42</code>)</li><li><b>Token:</b> the category plus optional value (IDENTIFIER, INTEGER)</li><li><b>Pattern:</b> the rule, usually a regular expression</li></ul>
+<code class="f">IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
+INTEGER     {DIGIT}+
+FLOAT       {DIGIT}+\\.{DIGIT}+
+KEYWORD     if|else|while|return</code>
+<h3>How scanners work</h3><ul><li><b>Maximal munch:</b> longest valid match wins (<code>==</code> is one token). Ties go to the rule listed first in Lex/Flex.</li><li>Keywords are separated from identifiers by ambiguity resolution</li><li>Error recovery: report, skip the bad character, resume</li><li>Scanning runs in O(n)</li><li><b>Double buffering:</b> two buffers with <code>lexeme_begin</code> and <code>forward</code> pointers; a sentinel avoids a bounds check on every character</li></ul>
+<h3>Generators</h3><p>Lex/Flex (C), JFlex (Java), PLY (Python), LALRPOP (Rust).</p>
+<h3>Regex to DFA</h3><ol><li>Regex to NFA with Thompson's construction (a single character is two states joined by one transition; <code>a|b</code> gives 6 states)</li><li>NFA to DFA with subset construction (up to 2<sup>N</sup> states)</li><li>Minimize with Hopcroft's algorithm (merge indistinguishable states)</li></ol>
+<p>A DFA makes one move per character, O(1). Its table takes O(|S| × |Σ|). The ε-closure of a state is every state reachable by ε-moves alone, including itself. An NFA may have several transitions on one symbol; a DFA has exactly one.</p>`],
+['Syntax analysis',`<p>The <b>parser</b> checks the token stream against a <b>context-free grammar</b> (BNF) and builds a parse tree or AST. Violations, like an unmatched brace, are syntax errors.</p>
+<code class="f">E → E + T | T
+T → T * F | F</code>
+<p>In <code>2 + 3 * 4</code> multiplication sits deeper in the tree, so it is evaluated first.</p>
+<ul><li><b>Top-down:</b> root to leaves; recursive descent, LL(k); easy error recovery; cannot handle left recursion</li><li><b>Bottom-up:</b> leaves to root with shift-reduce; LR(k), LALR, SLR; broader grammars; needs generators like Yacc or Bison</li></ul>
+<h3>Parse tree vs. AST</h3><p>The parse tree keeps every grammar detail, including punctuation. The AST is condensed: only operations and operands. It drives type checking, optimization and code generation.</p>`],
+['Semantic analysis',`<p>Checks meaning and context: type consistency, declaration before use, function parameters and scope. It uses the <b>symbol table</b>.</p>
+<div class="tw"><table><tr><th>Phase</th><th>Catches</th></tr><tr><td>Lexical</td><td>illegal characters, malformed tokens, unclosed strings</td></tr><tr><td>Syntax</td><td>grammar violations, like a missing closing parenthesis</td></tr><tr><td>Semantic</td><td>type mismatch, undeclared or duplicate identifiers, wrong function arguments</td></tr></table></div>
+<p>Example: <code>userAccount + 5</code> is grammatical, but adding an object to an integer is a semantic error.</p>`],
+['Intermediate representation',`<p>The <b>IR</b> is a language- and machine-independent form between source and target. It enables optimization and retargeting.</p>
+<ul><li><b>Three-address code:</b> at most three operands, explicit temporaries (<code>t1 = a + b</code>)</li><li><b>SSA:</b> each variable assigned exactly once; φ-functions merge values at joins; helps constant propagation and dead-code elimination</li><li><b>Control flow graph:</b> nodes are basic blocks, edges are control flow</li></ul>
+<h3>Frameworks</h3><ul><li><b>LLVM IR:</b> SSA with rich types; Clang, Rust, Swift</li><li><b>JVM bytecode:</b> stack-based; portable, JIT</li><li><b>WebAssembly:</b> portable binary, sandboxed, near-native speed</li></ul>`],
+['Code optimization',`<p>Improves speed, memory use and power while strictly preserving behavior.</p>
+<ul><li><b>Machine-independent:</b> works on the IR, no registers or absolute addresses</li><li><b>Machine-dependent:</b> after code generation; uses registers and the memory hierarchy</li></ul>
+<h3>By scope</h3><ul><li><b>Local:</b> basic blocks (local value numbering, constant folding)</li><li><b>Regional:</b> extended basic blocks (loop unrolling)</li><li><b>Global:</b> whole functions (live variable analysis)</li><li><b>Interprocedural:</b> across procedures (inline substitution)</li></ul>
+<h3>Techniques</h3><table><tr><th>Constant folding</th><td><code>x = 2 * 5</code> becomes <code>x = 10</code></td></tr><tr><th>Constant propagation</th><td><code>a = 10; b = a + 5</code> becomes <code>b = 10 + 5</code></td></tr><tr><th>Copy propagation</th><td><code>x = a; d = x*b</code> becomes <code>d = a*b</code></td></tr><tr><th>Common sub-expression</th><td>compute <code>a*b</code> once and reuse it</td></tr><tr><th>Dead code</th><td>removes values computed but never used</td></tr><tr><th>Unreachable code</th><td>removes code after <code>return</code></td></tr><tr><th>Inlining</th><td>replaces a call with the function body</td></tr><tr><th>Strength reduction</th><td><code>y * 2</code> becomes <code>y + y</code></td></tr><tr><th>Induction variable</th><td><code>j = 2*i</code> becomes <code>j = j + 2</code></td></tr></table>
+<h3>Loops</h3><ul><li><b>Code motion:</b> move loop-invariant statements outside the loop</li><li><b>Loop jamming (fusion):</b> merge loops with the same iteration count</li><li><b>Loop unrolling:</b> fewer iterations, more work per iteration</li></ul>
+<p>Passes run iteratively and can enable each other. Challenges: pass ordering and diminishing returns.</p>`],
+['Code generation',`<code class="f">Instruction selection → Register allocation → Instruction scheduling → Code emission</code>
+<ul><li><b>Instruction selection:</b> map IR operations to target instructions by pattern matching</li><li><b>Register allocation:</b> graph coloring; spilling when registers run out</li><li><b>Scheduling:</b> reorder to use the pipeline and hide memory latency</li><li><b>Emission:</b> final encoding; peephole optimization refines the result</li></ul>
+<p>Platform concerns: register sets, CISC vs. RISC, caches, calling conventions (ABI). x86-64, ARM and RISC-V are supported by separate back ends.</p>`],
+['Bootstrapping and the runtime',`<p><b>Bootstrapping</b> means using a compiler to compile itself (self-hosting). It shows maturity and validates correctness.</p>
+<ul><li><b>Half:</b> written in language X, targets Y, built by an existing X compiler; yields a cross-compiler</li><li><b>Full:</b> written in its own target language; needs an initial bootstrap compiler</li><li><b>Cross:</b> build on platform A for platform B</li></ul>
+<h3>Runtime system</h3><p>Services during execution: memory management (heap, stack, garbage collection), reflection, exception handling, concurrency, linking and loading. Java and Python have heavy runtimes; C has minimal support.</p>`],
+['Evaluators and S-expressions',`<ul><li><b>Evaluator:</b> executes the AST by tree traversal (often post-order), applying operators, looking up variables in environment chains</li><li><b>Eager:</b> evaluate all arguments first (C, Java, Python)</li><li><b>Lazy:</b> delay until needed (Haskell, short-circuit boolean operators)</li></ul>
+<h3>S-expressions</h3><p>Nested lists of atoms used in Lisp. Code and data share one syntax (<b>homoiconicity</b>), parsing is trivial and there are no precedence rules.</p>
+<code class="f">(* (+ 2 3) 4)      ; (2 + 3) * 4
+(if (> age 18) "adult" "minor")</code>`]
+];
+const done=new Set(ls.get('done',[]));
+function renderRev(){
+  $('#toc').innerHTML=SEC.map((s,i)=>`<a href="#s${i}">${s[0]}</a>`).join('');
+  $('#secs').innerHTML=SEC.map((s,i)=>`<article class="sec" id="s${i}"><h2>${s[0]}</h2>${s[1]}<button class="done" data-i="${i}" aria-pressed="${done.has(i)}">${done.has(i)?'Reviewed':'Mark as reviewed'}</button></article>`).join('');
+  $('#secs').onclick=e=>{const b=e.target.closest('.done');if(!b)return;const i=+b.dataset.i;done.has(i)?done.delete(i):done.add(i);ls.set('done',[...done]);renderRev()};
+  $('#pg').style.width=(done.size/SEC.length*100)+'%';
+}
+
+/* ---------- Quiz: [topic, question, correct, wrong x3, explanation] ---------- */
+const TOP=['Compiler basics','Phases and errors','IR and optimization','Lexical analysis','Automata and regex'];
+const Q=[
+[0,'Which best contrasts a pure interpreter with a pure AOT compiler?','An interpreter translates and runs code at runtime; an AOT compiler translates everything before execution','An interpreter produces a machine-code file; an AOT compiler runs code line by line','Both translate only while the program runs','An AOT compiler needs a virtual machine; an interpreter does not','Interpreters translate and run at runtime; AOT compilers translate beforehand.'],
+[0,'An embedded microcontroller has very little memory and no room for runtime translation. Which model fits best?','Ahead-of-time (AOT) compilation','Just-in-time (JIT) compilation','Pure interpretation','Hybrid bytecode with a VM','AOT does all translation beforehand, so there is no translation overhead at runtime.'],
+[0,'What is a major advantage of an interpreter during development?','Faster edit-test-debug cycles','Faster final execution speed','Whole-program optimization','Smaller runtime memory use','No full compile step means you can edit and re-run immediately.'],
+[0,'Which model compiles bytecode or source to native code while the application runs?','Just-in-time (JIT) compilation','Ahead-of-time compilation','Cross compilation','Bootstrapping','JIT compiles to native code at runtime.'],
+[0,'Source to bytecode, then a VM that interprets or JIT-compiles it, describes which model?','Hybrid execution model','Pure AOT compilation','Pure interpretation','Cross bootstrap','Java is the classic example: javac, then the JVM with JIT.'],
+[0,'What is a trade-off of JIT compared with an AOT binary?','Startup delay and runtime CPU cost, but adaptive optimization from profiling','No optimization is possible','Larger executable files on disk','It cannot run bytecode','JIT pays warm-up cost but can optimize hot paths using runtime profiles.'],
+[0,'With an IR, how many components are needed for 5 languages and 4 architectures?','9','20','1','54','M + N = 5 + 4 = 9, instead of M × N = 20.'],
+[0,'What is the compiler front end mainly concerned with?','Language-dependent analysis that builds an initial representation','Generating machine code for one CPU','Allocating physical registers','Linking and loading libraries','The front end is language-dependent: lexing, parsing, semantic checks, AST or IR.'],
+[0,'What is the middle end responsible for?','Target-independent optimization of the IR','Tokenizing the source','Choosing machine instructions','Reporting lexical errors','It optimizes the IR without depending on any specific CPU.'],
+[0,'Why is register allocation a back-end task?','Register count and layout vary by CPU architecture','It needs the source text','It checks types','It builds the parse tree','It depends on the target machine, so it cannot be target-independent.'],
+[1,'Which phase groups characters into tokens?','Lexical analysis','Syntax analysis','Semantic analysis','Code generation','Lexical analysis (scanning) groups characters into tokens.'],
+[1,'The line int x = "hello"; is flagged because a string cannot be assigned to an int. Which phase finds this?','Semantic analysis','Lexical analysis','Syntax analysis','Code generation','The line is grammatical; the mismatch is a type error.'],
+[1,'A programmer forgets the closing parenthesis in printf("Hi";. Which phase reports it first?','Syntax analysis','Lexical analysis','Semantic analysis','Optimization','Every token is valid, but their arrangement violates the grammar.'],
+[1,'Two variables with the same name are declared in the same scope. Which phase catches it?','Semantic analysis','Lexical analysis','Syntax analysis','Register allocation','Duplicate declarations are found with the symbol table during semantic analysis.'],
+[1,'An illegal character such as @ inside an identifier is caught during:','Lexical analysis','Semantic analysis','Syntax analysis','Optimization','Illegal characters and malformed tokens are lexical errors.'],
+[1,'The parser checks the token stream against which rule set?','Context-free grammar (CFG)','Regular expressions only','The symbol table','The target instruction set','Parsers are based on context-free grammars, written in BNF.'],
+[1,'How does an AST differ from a parse tree?','The AST omits punctuation and structural detail, keeping operations and operands','The AST contains every grammar rule application','The AST is built by the lexer','The AST holds machine code','Parse tree = every grammar detail; AST = only meaningful operations and operands.'],
+[1,'In 2 + 3 * 4, where does * appear in the parse tree?','Deeper than +, so it is evaluated first','Above +, so it is evaluated last','At the root','It is removed by the lexer','Operator precedence is encoded by placing higher-precedence operators deeper.'],
+[1,'Which limitation applies to top-down parsers such as LL(k)?','They cannot handle left recursion','They cannot be written by hand','They build trees from leaves to root','They need Yacc or Bison','Left-recursive grammars must be rewritten for top-down parsing.'],
+[1,'Which structure tracks names, scope, types and function signatures across phases?','Symbol table','Control flow graph','Token stream','Call stack','The symbol table stores identifier attributes.'],
+[2,'Which IR assigns each variable exactly once?','Static Single Assignment (SSA)','Three-address code','Parse tree','Stack bytecode','SSA gives every variable a single definition and uses φ-functions at joins.'],
+[2,'In a control flow graph, nodes represent:','Basic blocks','Tokens','Variables','Source files','Nodes are straight-line basic blocks; edges are control flow.'],
+[2,'Three-address code allows at most how many operands per instruction?','Three','Two','Four','One','The name says it: at most three operands, with explicit temporaries.'],
+[2,'Which optimization is typically done in the target-independent middle end?','Dead code elimination','Register allocation','Instruction scheduling','Instruction selection','The others depend on the target CPU and belong to the back end.'],
+[2,'Which optimization turns y = 2 * 5 into y = 10?','Constant folding','Copy propagation','Strength reduction','Loop unrolling','Constant folding evaluates expressions with only constants at compile time.'],
+[2,'Replacing x = y * 2 with x = y + y is:','Strength reduction','Constant folding','Function inlining','Code motion','A costly operation is replaced with a cheaper one.'],
+[2,'Moving a loop-invariant statement before the loop is called:','Code motion','Loop jamming','Loop unrolling','Dead code elimination','It makes the statement run once instead of every iteration.'],
+[2,'Removing statements that appear after return 0; is:','Unreachable code elimination','Dead code elimination','Constant propagation','Loop fusion','The code can never execute. Dead code is computed but never used.'],
+[2,'Replacing a function call with the function body is:','Function inlining','Function cloning','Strength reduction','Code motion','Inlining saves call overhead.'],
+[2,'Register allocation is commonly done with:','Graph coloring','Thompson construction','Subset construction','Shift-reduce parsing','Variables are nodes; interfering variables must get different colors (registers).'],
+[2,'Using a compiler to compile itself is called:','Bootstrapping','Cross compilation','Inlining','Peephole optimization','Self-hosting shows maturity and validates correctness.'],
+[3,'Which statement correctly relates token, lexeme and pattern?','Token is the category, lexeme is the matched text, pattern is the rule','Token is the rule, lexeme is the category, pattern is the text','All three mean the same thing','Lexeme is the rule, pattern is the category, token is the text','Token = category, lexeme = actual text, pattern = rule (usually a regex).'],
+[3,'With maximal munch, how does a lexer treat ifvar when keywords are if and for?','One identifier token, ifvar','Keyword if, then identifier var','A lexical error','Two keywords','The longest match wins, and ifvar is longer than if.'],
+[3,'If if matches both the keyword rule and the identifier rule at the same length, Lex/Flex picks:','The rule listed first','The rule listed last','The shorter rule','It reports an error','Equal-length matches go to the earlier rule, so keywords come first.'],
+[3,'How many tokens are in total = balance + 50; (ignoring whitespace and EOF)?','6','4','5','7','total, =, balance, +, 50, ; makes 6.'],
+[3,'In double buffering, what is a sentinel for?','Marking the end of a buffer without a bounds check per character','Storing the symbol table','Marking comments','Storing token values','The sentinel (usually EOF) removes a length check on each read.'],
+[3,'Which strips whitespace and comments before the parser sees the input?','The lexer','The code generator','The optimizer','The linker','Whitespace and comments are discarded during lexical analysis.'],
+[4,'What distinguishes an NFA from a DFA?','An NFA may have several transitions on one symbol; a DFA has exactly one','A DFA allows ε-moves; an NFA does not','An NFA cannot be converted to a DFA','A DFA has no accepting states','DFA: exactly one transition per state per symbol. NFA: zero, one, many, plus ε.'],
+[4,'How many states does the standard Thompson NFA for a|b have?','6','2','4','8','2 for a, 2 for b, plus a new start and a new accept.'],
+[4,'Subset construction on an N-state NFA yields at most how many DFA states?','2^N','N²','N!','2N','Each DFA state is a subset of NFA states.'],
+[4,'Which algorithm minimizes a DFA by merging indistinguishable states?','Hopcroft\'s algorithm','Thompson\'s construction','Subset construction','Shift-reduce','Hopcroft partitions states and merges equivalent ones.'],
+[4,'The ε-closure of a state Q is:','All states reachable from Q using only ε-transitions, including Q','Only the states directly after Q','All accepting states','The states reachable on any letter','Q plus everything reachable through ε-moves alone.'],
+[4,'What is the minimum string length in the language of (a|b)+ ?','1','0','2','Infinite','+ means one or more repetitions, so a single a or b is shortest.'],
+[4,'A DFA for integers reads 12a3 and has no transition on a. What does the lexer do?','Accepts 12 as an integer and leaves a3 in the input','Rejects the whole input','Accepts 12a3','Skips 12 and reads a3','It returns the last accepting match (12) and rescans from a.']
+];
+
+let st=null;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function setup(){
+  st=null;
+  $('#quiz').innerHTML=`<h2>Review quiz</h2><p>${Q.length} questions across ${TOP.length} topics. Pick topics and length, then start.</p>
+  <fieldset style="border:0;padding:0"><legend>Topics</legend><div class="chips">${TOP.map((t,i)=>`<label><input type="checkbox" value="${i}" checked>${t}</label>`).join('')}</div></fieldset>
+  <label>Questions: <select id="n"><option>10</option><option>20</option><option value="99" selected>All</option></select></label>
+  <div class="btns"><button class="btn p" id="go">Start quiz</button></div>`;
+  $('#go').onclick=()=>{const ts=[...document.querySelectorAll('.chips input:checked')].map(i=>+i.value);if(!ts.length){alert('Select at least one topic.');return}
+    st={qs:shuffle(Q.filter(q=>ts.includes(q[0]))).slice(0,+$('#n').value),i:0,s:0,miss:[],by:{}};ask()};
+}
+function ask(){
+  const q=st.qs[st.i],opts=shuffle([q[2],q[3],q[4],q[5]]);
+  $('#quiz').innerHTML=`<div class="meta"><span>Question ${st.i+1} of ${st.qs.length}</span><span>${TOP[q[0]]}</span><span>Score ${st.s}</span></div>
+  <div class="bar"><i style="width:${st.i/st.qs.length*100}%"></i></div><p class="q">${q[1]}</p>
+  <div id="o">${opts.map(o=>`<button class="opt">${o}</button>`).join('')}</div><div id="fb" aria-live="polite"></div>`;
+  $('#o').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;const ok=b.textContent===q[2];
+    document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===q[2])x.classList.add('right')});
+    if(!ok)b.classList.add('wrong');
+    const t=st.by[q[0]]||(st.by[q[0]]=[0,0]);t[1]++;if(ok){st.s++;t[0]++}else st.miss.push(q);
+    $('#fb').innerHTML=`<div class="exp"><b>${ok?'Correct.':'Not quite. Answer: '+q[2]}</b><br>${q[6]}</div><div class="btns"><button class="btn p" id="nx">${st.i+1<st.qs.length?'Next question':'See results'}</button></div>`;
+    $('#nx').focus();$('#nx').onclick=()=>{st.i++;st.i<st.qs.length?ask():finish()}};
+}
+function finish(){
+  const n=st.qs.length,pct=Math.round(st.s/n*100),h=ls.get('hist',[]);
+  h.unshift({d:new Date().toISOString(),s:st.s,n,by:st.by});ls.set('hist',h.slice(0,50));
+  const msg=pct>=90?'Outstanding. You are exam ready.':pct>=75?'Solid. Review the missed items below.':pct>=50?'Getting there. Revisit the weak topics.':'Keep going. Reread the reviewer, then retry.';
+  $('#quiz').innerHTML=`<h2>Results</h2><div class="score">${st.s}/${n}</div><p>${pct}%. ${msg}</p>
+  ${Object.entries(st.by).map(([k,v])=>bar(TOP[k],v[0],v[1])).join('')}
+  <h3>Missed questions</h3>${st.miss.length?st.miss.map(q=>`<div class="miss"><b>${q[1]}</b><br>Answer: ${q[2]}<br><small>${q[6]}</small></div>`).join(''):'<p>None. Perfect run.</p>'}
+  <div class="btns"><button class="btn p" id="rt">Take another quiz</button><a class="btn" href="#/scores">View scores</a></div>`;
+  $('#rt').onclick=setup;
+}
+const bar=(l,c,n)=>`<div class="row"><span>${l}</span><div class="bar"><i style="width:${n?c/n*100:0}%"></i></div><span>${c}/${n}</span></div>`;
+
+/* ---------- Scores ---------- */
+function renderScores(){
+  const h=ls.get('hist',[]);
+  if(!h.length){$('#scores').innerHTML='<h2>Scores</h2><p>No attempts yet. Finish a quiz and your results appear here.</p><a class="btn p" href="#/quiz">Take the quiz</a>';return}
+  const best=Math.max(...h.map(x=>Math.round(x.s/x.n*100))),avg=Math.round(h.reduce((a,x)=>a+x.s/x.n*100,0)/h.length),agg={};
+  h.forEach(x=>Object.entries(x.by).forEach(([k,v])=>{const a=agg[k]||(agg[k]=[0,0]);a[0]+=v[0];a[1]+=v[1]}));
+  $('#scores').innerHTML=`<h2>Your scores</h2><p>Best <b>${best}%</b>. Average <b>${avg}%</b> over ${h.length} attempt${h.length>1?'s':''}.</p>
+  <h3>Mastery by topic</h3>${TOP.map((t,i)=>agg[i]?bar(t,agg[i][0],agg[i][1]):'').join('')}
+  <h3>Recent attempts</h3><div class="tw"><table>${h.slice(0,10).map(x=>`<tr><td>${new Date(x.d).toLocaleString()}</td><td>${x.s}/${x.n}</td><td>${Math.round(x.s/x.n*100)}%</td></tr>`).join('')}</table></div>
+  <div class="btns"><a class="btn p" href="#/quiz">Take the quiz</a><button class="btn" id="clr">Clear scores</button></div>`;
+  $('#clr').onclick=()=>{if(confirm('Clear all saved scores on this device?')){ls.set('hist',[]);renderScores()}};
+}
+
+/* ---------- Router ---------- */
+function route(){
+  if(/^#s\d/.test(location.hash))return;
+  const v=(location.hash.match(/^#\/(\w+)/)||[])[1]||'home';
+  document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  document.querySelectorAll('nav a').forEach(a=>a.dataset.v===v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  if(v==='scores')renderScores();if(v==='quiz'&&!st)setup();scrollTo(0,0);
+}
+renderRev();addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
